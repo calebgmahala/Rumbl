@@ -13,8 +13,9 @@ defmodule Mix.Tasks.Report.Videos do
     Repo.all(
       from(
         v in Video,
-        join: c in assoc(v, :category),
-        select: count(v.id)
+        right_join: c in assoc(v, :category),
+        select: {c.name, count(v.id)},
+        group_by: c.name
       )
     )
     |> IO.inspect()

@@ -21,6 +21,10 @@
     <strong>Description:</strong>
     <%= @video.description %>
   </li>
+  <li>
+    <strong>Category</strong>
+    <%= @video.category_id %>
+  </li>
 
 </ul>
 
