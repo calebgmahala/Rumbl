@@ -10,14 +10,16 @@ defmodule Mix.Tasks.Report.Videos do
   def run(_) do
     ensure_started(Rumbl.Repo, [])
 
-    Repo.all(
-      from(
-        v in Video,
-        right_join: c in assoc(v, :category),
-        select: {c.name, count(v.id)},
-        group_by: c.name
+    list =
+      Repo.all(
+        from(
+          v in Video,
+          right_join: c in assoc(v, :category),
+          select: [c.name, count(v.id)],
+          group_by: c.name
+        )
       )
-    )
-    |> IO.inspect()
+
+    Enum.each(list, fn a -> IO.puts("##{Enum.at(a, 0)}: #{Enum.at(a, 1)}") end)
   end
 end
